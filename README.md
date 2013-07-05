@@ -7,26 +7,28 @@ With this extension you can do the following:
     
 Which produces something like:
     
-   "objects": [
-    {
-      "publication_date": "1983-07-04",
-      "publisher__name": "Viking Press",
-      "resource_uri": "/api/v1/book/1/",
-      "title": "Misery"
-    },
-    {
-      "publication_date": "1945-08-17",
-      "publisher__name": "Penguin Press",
-      "resource_uri": "/api/v1/book/2/",
-      "title": "Animal Farm"
-    },
-    {
-      "publication_date": "1949-06-08",
-      "publisher__name": "Penguin Press",
-      "resource_uri": "/api/v1/book/3/",
-      "title": "1984"
-    }
-  ]
+       "objects": [
+        {
+          "publication_date": "1983-07-04",
+          "publisher__name": "Viking Press",
+          "resource_uri": "/api/v1/book/1/",
+          "title": "Misery"
+        },
+        {
+          "publication_date": "1945-08-17",
+          "publisher__name": "Penguin Press",
+          "resource_uri": "/api/v1/book/2/",
+          "title": "Animal Farm"
+        },
+        {
+          "publication_date": "1949-06-08",
+          "publisher__name": "Penguin Press",
+          "resource_uri": "/api/v1/book/3/",
+          "title": "1984"
+        }
+      ]
+
+And yields the following two queries:
 
     SELECT COUNT(*) FROM "app_book"
 
