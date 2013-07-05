@@ -2,11 +2,9 @@ from tastypie.resources import ModelResource
 
 class SpecifiedFields(ModelResource):
 
-    def build_filters(self, filters=None):
-        self.filters = filters
-        return super(SpecifiedFields, self).build_filters(filters)
-
     def get_object_list(self, request):
+    
+        filters = super(SpecifiedFields, self).build_filters()
     
         self.specified_fields = []
         
@@ -25,7 +23,7 @@ class SpecifiedFields(ModelResource):
 
         # make `distinct` default for m2m filters
         has_m2m = False
-        for field in self.filters:
+        for field in filters:
             try:
                 related = objects.model._meta.get_field_by_name(field)[0]
             except:
