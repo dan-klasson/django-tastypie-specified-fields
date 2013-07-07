@@ -45,7 +45,7 @@ You can also filter on m2m relations:
 
 ### Demo
 
-There is an example project included you can play around with. The password is `demo/demo`.
+There is an example project included you can play around with. The credentials are `demo/demo`.
 
 ### TODO
 
