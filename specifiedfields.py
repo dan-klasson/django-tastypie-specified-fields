@@ -3,20 +3,20 @@ from tastypie.resources import ModelResource
 class SpecifiedFields(ModelResource):
 
     def get_object_list(self, request):
-    
+
         filters = super(SpecifiedFields, self).build_filters()
-    
+
         self.specified_fields = []
-        
+
         objects = super(SpecifiedFields, self).get_object_list(request)
 
         distinct = request.GET.get('distinct', False) == 'true'
         fields = request.GET.get("fields", False)
-        
+
         if not fields:
             return objects
-        
-        try:    
+
+        try:
             self.specified_fields = fields.split(',')
         except:
             self.specified_fields.append(fields)
@@ -33,36 +33,30 @@ class SpecifiedFields(ModelResource):
 
         only_fields = []
         select_related = []
-        
+
         for specified_field in self.specified_fields:
-        
+
             try:
                 fields = specified_field.split('__')
             except:
                 continue
-        
+
             # Only adds fields that exist for this model
             # excluding model methods
             for meta_field in objects.model._meta.fields:
-            
+
                 if meta_field.name == fields[0]:
-                
+
                     only_fields.append(specified_field)
 
             # Set `select_related` for related fields
-            if len(fields) > 1:
-                try:
-                    related = objects.model._meta.get_field_by_name(fields[0])[0]
-                except:
-                    related = False
-                    
-                if related and related.get_internal_type() == 'ForeignKey':
-                    select_related.append(fields[0])
-        
-        if len(only_fields): 
+            if len(fields) > 2:
+                select_related.append('__'.join(fields[0:len(fields) - 1]))
+
+        if len(only_fields):
             objects = objects.only(*only_fields)
-            
-        if len(self._meta.excludes):       
+
+        if len(self._meta.excludes):
             objects = objects.defer(*self._meta.excludes)
 
         if len(select_related):
@@ -74,16 +68,16 @@ class SpecifiedFields(ModelResource):
         return objects
 
     def full_dehydrate(self, bundle, for_list=False):
-    
+
         """
         This override disables `full=True` and other things we don't use
         """
-        
+
         # call the base class if qs param `fields` is not set
         if not len(self.specified_fields):
-            return super(SpecifiedFields, self).full_dehydrate(self, \
+            return super(SpecifiedFields, self).full_dehydrate( \
                                                         bundle, for_list)
-        
+
         # Dehydrate each field supplied in the `fields` parameter
         for field_name, field_object in self.fields.items():
 
@@ -105,16 +99,14 @@ class SpecifiedFields(ModelResource):
 
         # Dehydrate each field including related ones
         for row in self.specified_fields:
-        
+
             f = row.split('__')
-                           
+
             bundle.data[row] = reduce(getattr, f, bundle.obj)
-            
+
             # display actual values for `choices` fields
             method = getattr(bundle.obj, "get_%s_display" % f[0], False)
             if method:
                 bundle.data[f[0]] = method()
         return bundle
-
-            
 
