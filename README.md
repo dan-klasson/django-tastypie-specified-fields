@@ -8,6 +8,7 @@ For example, you can do the following:
     curl -H "Accept: application/json" http://127.0.0.1:8000/api/v1/book/?fields=title,publication_date,publisher__name,publisher__country__name
 
 Which produces something like:
+
     "objects": [
         {
             "publication_date": "1983-07-04",
