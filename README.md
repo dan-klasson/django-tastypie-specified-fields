@@ -49,6 +49,7 @@ There is an example project included you can play around with. The password is `
 
 ### TODO
 
+* Return the `resource_uri` when user specifies a related field without sub items
 * Make it support m2m fields
 * Create the ability to specify columns for each API in the Admin
 
