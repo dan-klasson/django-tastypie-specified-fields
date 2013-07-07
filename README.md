@@ -43,8 +43,6 @@ You can also filter on m2m relations:
 
     curl -H "Accept: application/json" http://127.0.0.1:8000/api/v1/book/?fields=title,publication_date,publisher__name&author=1
 
-Which automatically adds `distinct` to the query. If you do not want this behaviour you can pass `distinct=false`.
-
 ### Demo
 
 There is an example project included you can play around with. The password is `demo/demo`.
