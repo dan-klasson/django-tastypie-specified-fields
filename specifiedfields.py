@@ -50,7 +50,7 @@ class SpecifiedFields(ModelResource):
                     only_fields.append(specified_field)
 
             # Set `select_related` for related fields
-            if len(fields) > 2:
+            if len(fields) > 1:
                 select_related.append('__'.join(fields[0:len(fields) - 1]))
 
         if len(only_fields):
